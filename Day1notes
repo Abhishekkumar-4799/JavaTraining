@@ -1,0 +1,286 @@
+Procedural Programming:
+Follows a top down approach. There is a main function which in turn invokes other subroutines or functions.
+
+Examples:
+C
+Fortran
+BASIC
+
+Object Oriented Programming:
+Any real world component is modelled as an object.
+Objects are the building blocks of an application.
+
+Any real world component has state and behavior.
+
+For example, if a person is a real world component, name and age are examples of state and speaking and walking are examples of behaviour.
+
+The state is modelled as data and behavior is modelled as method.
+
+Examples: C++, Java, C#
+
+Functional Programming:
+
+Function is considered as the building block of an application.
+Functions are treated as expressions, values, parameters and return values.
+
+Focuses more on immutability and avoiding side effects.
+
+Functional programming supports the following features:
+1. A function can be passed as an argument to another function.
+2. A function can return another function.
+3. Anonymous functions(Functions without name). //lambda expression is an anonymous function
+
+Examples: Scala, Groovy.
+
+Java is primarily an object oriented programming language which also supports functional programming features.
+
+Functional Interface:
+
+A functional interface is an interface that contains only one abstract method.
+
+A functional interface is treated as a function in java 8.
+
+interface A{
+	String message(String name);
+}
+
+before java 8:
+
+class B implements A{
+	public String message(String name){
+		........
+	}
+}
+
+A a=new B();
+Strig msg=a.message(.....)
+
+From java 8:
+
+A a=s->"Welcome to functional programming "+s;
+String msg=a.message(....)
+
+-> ----- lambda symbol.
+s->"Welcome to functional programming "+s; //lambda expression.
+
+anything left to -> symbol is the parameter list and right to the -> symbol is the method body.
+
+In the method body, if there is a single statement {} and return statement are not required.
+
+s->{
+	return "Welcome to functional programming "+s;
+}
+
+Before java 8:
+
+An interface can have only abstract methods.
+
+From java 8:
+
+An interface can have both abstract and non abstract methods.
+
+ 
+@FunctionalInterface annotation:
+
+By default, any interface with one abstract method is a functional interface.
+
+To enforce that an interface should be functional , @FunctionalInterface annotation is used.
+
+
+A functional interface can have any number of non abstract methods but only one abstract method.
+
+From java 8, interfaces can have static methods.
+
+Method Reference:
+
+Method reference is used to refer the abstract method of a functional interface.
+It is a compact and easy form of lambda expression.
+
+3 types of method references:
+
+1. Reference to static method.
+2. Reference to non-static method
+3. constructor reference
+
+Reference to static method:
+
+class P{
+	static void method1(String name){
+	................
+	}
+}
+
+interface I{
+	void test(String s);
+}
+
+I i=P::method1 is equivalent to 
+
+I i=s->P.method1(s)
+
+:: is called method reference operator.
+
+ClassName::MethodName
+
+
+Reference to non static method:
+
+class P{
+	 void method1(String name){
+	................
+	}
+}
+
+interface I{
+	void test(String s);
+}
+P p1=new P();
+I i=p1::method1 is equivalent to 
+
+I i=s->p1.method1(s)
+
+
+obj::MethodName
+
+
+Special type of non static reference---reference to an instance method of an arbitrary object of a particular type.
+
+(obj,args)->obj.instanceMethod(args)
+
+can be written as
+
+ObjectType::instanceMethod.
+
+if s is a String type variable,
+
+(s,args)->s.compareTo(args) can be written as String::compareTo.
+
+
+class String{
+	String concat(String s){
+	  .......
+	}
+}
+
+interface B{
+	String getData(String s1,String s2);
+}
+
+B b=(a,b)->a.concat(b);
+
+is equivalent to 
+
+B b=String::concat
+
+interface C{
+	void method1(D d1,int a,double b)
+};
+
+class D{
+	void test(int x,double y);
+}
+
+C c=D::test;
+
+
+List<String> list=Arrays.asList("apple","orange","mango");
+list.foreach(e->System.out.println(e));
+
+
+
+class System{
+	public static PrintStream out;
+}
+
+class PrintStream{
+	public void println(Object o); //matches with the signature of accept method in Consumer.
+}
+
+System.out.println(o);
+
+Constructor reference:
+
+A constructor reference can be created using the class name and the new operator.
+
+A constructor reference can be assigned to any functional interface that defines a method which compatible
+with the constructor.
+
+interface CustomerFactory1{
+	Customer createCustomer(); //return type should be an object to be created.
+}
+
+interface CustomerFactory2{
+	Customer createCustomer(int id);
+}
+
+class Customer{
+	Customer(){
+	}
+
+	Customer(int id){
+	}
+}
+
+
+CustomerFactory1 factory1=Customer::new; //invokes Customer()
+CustomerFactory2 factory2=Customer::new; //invokes Customer(int)
+
+
+Java8 Streams:
+
+Stream<T> stream;
+
+
+Uses of streams:
+
+1. Way to express and process collection of objects.
+2. Enables us to perform operations like filtering, mapping, reducing, sorting and etc.
+
+ 
+interface Consumer<T>{
+	void accept(T t);
+}
+
+interface Function<T,R>{
+	R appy(T t);
+}
+
+class Stream<T>{
+	Stream<R> map(Function<T,R> f){
+	............
+	}
+	Stream<T> filter(Predicate<T> predicate){
+	............
+	}
+
+}
+
+The map function applies the parameter function to each element of the stream and returns another stream
+with transformed elements.
+
+interface Predicate<T>{
+	boolean test(T t);
+}
+The predicate function applies the parameter function to each element of the stream and returns another stream
+with elements for which the predicate returns true.
+
+two types of operations provided by streams.
+
+1. intermediate ---- return another stream----examples map, filter and etc
+2. terminal----------do not return another stream---examples forEach,count and etc.
+
+Multi-threading:
+
+Thread is part of a program.
+When multiple parts of the same program run concurrently, it is called multi-threading.
+
+When it is a parallel stream, it starts a thread using each core cpu available in the machine.
+
+
+classpath:
+
+denotes the external location where supporting libraries are available.
+
+jar file is a collection of classes in a compressed format.
+
+
